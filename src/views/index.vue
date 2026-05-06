@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { gameData } from '../data/gameData'
 
 const state = ref<'start' | 'playing'>('start')
@@ -13,7 +13,8 @@ const gridPositions = ['tl', 'tr', 'bl', 'br']
 
 function pickRandomUnseen() {
   const available = gameData.map((_, i) => i).filter(i => !shownIndices.has(i))
-  if (available.length === 0) return undefined
+  if (available.length === 0)
+    return undefined
   const idx = available[Math.floor(Math.random() * available.length)]
   shownIndices.add(idx)
   return idx
@@ -22,12 +23,14 @@ function pickRandomUnseen() {
 function startGame() {
   state.value = 'playing'
   const idx = pickRandomUnseen()
-  if (idx !== undefined) currentIndex.value = idx
+  if (idx !== undefined)
+    currentIndex.value = idx
 }
 
 function pickNext() {
   const idx = pickRandomUnseen()
-  if (idx !== undefined) currentIndex.value = idx
+  if (idx !== undefined)
+    currentIndex.value = idx
 }
 </script>
 
@@ -43,14 +46,18 @@ function pickNext() {
             <span class="corner" :class="gridPositions[i]">{{ i + 1 }}</span>
           </div>
         </div>
-        <button class="btn" @click="startGame">开始游戏</button>
+        <button class="btn" @click="startGame">
+          开始游戏
+        </button>
       </div>
 
       <div v-else key="playing" class="game-screen">
-        <p class="remaining">剩余：{{ remaining }}</p>
+        <p class="remaining">
+          剩余：{{ remaining }}
+        </p>
 
         <Transition name="grid" mode="out-in">
-          <div class="grid-container" :key="currentIndex">
+          <div :key="currentIndex" class="grid-container">
             <div v-for="(char, i) in currentChars" :key="i" class="tianzige">
               <div class="cross" />
               <span class="char">{{ char }}</span>
@@ -60,8 +67,12 @@ function pickNext() {
         </Transition>
 
         <div class="bottom-bar">
-          <button v-if="remaining > 0" class="btn" @click="pickNext">下一题</button>
-          <p v-else class="done">已完成</p>
+          <button v-if="remaining > 0" class="btn" @click="pickNext">
+            下一题
+          </button>
+          <p v-else class="done">
+            已完成
+          </p>
         </div>
       </div>
     </Transition>
