@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import HelpModal from '../components/HelpModal.vue'
 import { gameData } from '../data/gameData'
 
 const state = ref<'start' | 'playing'>('start')
+const showHelp = ref(false)
 const shownIndices = reactive(new Set<number>())
 const currentIndex = ref(-1)
 
@@ -76,6 +78,12 @@ function pickNext() {
         </div>
       </div>
     </Transition>
+
+    <button class="help-btn" @click="showHelp = true">
+      ?
+    </button>
+
+    <HelpModal :show="showHelp" @close="showHelp = false" />
   </div>
 </template>
 
@@ -276,5 +284,32 @@ function pickNext() {
     opacity: 0;
     transform: perspective(500px) rotateX(-5deg) scale(0.95);
   }
+}
+
+/* ---- 帮助按钮 ---- */
+.help-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #999;
+  background: transparent;
+  color: #999;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 100;
+  line-height: 1;
+}
+
+.help-btn:hover {
+  border-color: #333;
+  color: #333;
 }
 </style>
